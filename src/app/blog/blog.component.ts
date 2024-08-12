@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../services/blog.service';
+import { BrowserCheckService } from '../utils/browser-check.service';
 
 @Component({
   selector: 'app-blog',
@@ -21,7 +22,10 @@ export class BlogComponent implements OnInit {
     content: string;
   }[] = [];
 
-  constructor(private blogService: BlogService) {}
+  constructor(
+    private blogService: BlogService,
+    private browserCheckService: BrowserCheckService
+  ) {}
 
   /**
    * Initializes the component by fetching blog data from the blog service.
@@ -66,44 +70,48 @@ export class BlogComponent implements OnInit {
    * @return {void}
    */
   ngAfterViewInit() {
-    const carousel = document.getElementById('carousel') as HTMLElement;
-    const images = carousel.querySelectorAll('img');
+    if(this.browserCheckService.isBrowser()){
+      const carousel = document.getElementById('carousel') as HTMLElement;
+      const images = carousel.querySelectorAll('img');
 
-    images.forEach((img) => {
-      img.setAttribute('draggable', 'false');
-    });
+      images.forEach((img) => {
+        img.setAttribute('draggable', 'false');
+      });
 
-    let isDown = false;
-    let startX: number;
-    let scrollLeft: number;
+      let isDown = false;
+      let startX: number;
+      let scrollLeft: number;
 
-    carousel.addEventListener('mousedown', (e) => {
-      isDown = true;
-      carousel.classList.add('active');
-      startX = e.pageX - carousel.offsetLeft;
-      scrollLeft = carousel.scrollLeft;
-    });
+      carousel.addEventListener('mousedown', (e) => {
+        isDown = true;
+        carousel.classList.add('active');
+        startX = e.pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+      });
 
-    carousel.addEventListener('mouseleave', () => {
-      isDown = false;
-      carousel.classList.remove('active');
-    });
+      carousel.addEventListener('mouseleave', () => {
+        isDown = false;
+        carousel.classList.remove('active');
+      });
 
-    carousel.addEventListener('mouseup', () => {
-      isDown = false;
-      carousel.classList.remove('active');
-    });
+      carousel.addEventListener('mouseup', () => {
+        isDown = false;
+        carousel.classList.remove('active');
+      });
 
-    carousel.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - carousel.offsetLeft;
-      const walk = (x - startX) * 2; // The higher the value, the faster the scrolling
-      carousel.scrollLeft = scrollLeft - walk;
-    });
+      carousel.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 2; // The higher the value, the faster the scrolling
+        carousel.scrollLeft = scrollLeft - walk;
+      });
+    }
   }
 
   openInNewTab(url: string) {
     window.open(url, '_blank');
   }
+
+
 }

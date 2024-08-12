@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UserProfileService } from '../../services/user-profile.service';
+import { BrowserCheckService } from '../../utils/browser-check.service';
 
 @Component({
   selector: 'app-navbar',
@@ -22,16 +23,20 @@ export class AppNavbar implements OnInit {
     { name: 'Contact', href: '/contact' },
   ];
 
-  constructor(private userProfileService: UserProfileService) {}
+  constructor(
+    private userProfileService: UserProfileService,
+    private browserCheckService: BrowserCheckService
+  ) {}
+
   ngOnInit(): void {
     this.userProfileService.getUserProfile().subscribe((data) => {
       this.user = data.results[0];
     });
 
-    if (this.isBrowser()) {
+    if (this.browserCheckService.isBrowser()) {
       this.detectSystemTheme();
       // Load the saved theme from localStorage, if available
-      const savedTheme = this.isLocalStorageAvailable()
+      const savedTheme = this.browserCheckService.isLocalStorageAvailable()
         ? localStorage.getItem('theme')
         : null;
       if (savedTheme) {
@@ -49,9 +54,9 @@ export class AppNavbar implements OnInit {
 
   setTheme(theme: string): void {
     this.currentTheme = theme;
-    if (this.isBrowser()) {
+    if (this.browserCheckService.isBrowser()) {
       document.documentElement.setAttribute('data-theme', theme);
-      if (this.isLocalStorageAvailable()) {
+      if (this.browserCheckService.isLocalStorageAvailable()) {
         localStorage.setItem('theme', theme);
       }
     }
@@ -75,30 +80,5 @@ export class AppNavbar implements OnInit {
     }
   }
 
-  /**
-   * Checks if local storage is available in the current environment.
-   *
-   * @return {boolean} True if local storage is available, false otherwise.
-   */
-  isLocalStorageAvailable(): boolean {
-    if (!this.isBrowser()) return false;
 
-    try {
-      const test = '__storage_test__';
-      localStorage.setItem(test, test);
-      localStorage.removeItem(test);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  /**
-   * Checks if the current environment is a browser.
-   *
-   * @return {boolean} True if the environment is a browser, false otherwise.
-   */
-  isBrowser(): boolean {
-    return typeof window !== 'undefined' && typeof document !== 'undefined';
-  }
 }
