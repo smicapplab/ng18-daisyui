@@ -1,3 +1,142 @@
-<div>
-  <h1>Documentation</h1>
+<div class="m-5">
+  <!-- Introduction -->
+  <section id="introduction" class="mb-8">
+    <h1 class="mb-4 text-4xl font-bold">TailwindCSS/DaisyUI API Documentation</h1>
+    <p class="text-lg">Welcome to the API documentation for the TailwindCSS/DaisyUI project. This documentation covers
+      the usage of TailwindCSS and DaisyUI classes, components, and utilities. Use this guide to understand how to
+      implement and customize the UI components provided by the project.</p>
+  </section>
+
+  <!-- Table of Contents -->
+  <section id="table-of-contents" class="mb-8">
+    <h2 class="mb-4 text-3xl font-semibold">Table of Contents</h2>
+    <ul class="list-disc list-inside">
+      <li><a href="#getting-started" class="text-blue-500 hover:underline">Getting Started</a></li>
+      <li><a href="#global-settings" class="text-blue-500 hover:underline">Global Settings</a></li>
+      <li><a href="#components" class="text-blue-500 hover:underline">Components</a></li>
+      <li><a href="#utilities" class="text-blue-500 hover:underline">Utilities</a></li>
+      <li><a href="#custom-classes" class="text-blue-500 hover:underline">Custom Classes</a></li>
+      <li><a href="#examples" class="text-blue-500 hover:underline">Examples</a></li>
+      <li><a href="#best-practices" class="text-blue-500 hover:underline">Best Practices</a></li>
+      <li><a href="#faq" class="text-blue-500 hover:underline">FAQ</a></li>
+    </ul>
+  </section>
+
+  <!-- Getting Started -->
+  <section id="getting-started" class="mb-8">
+    <h2 class="mb-4 text-3xl font-semibold">Getting Started</h2>
+    <h3 class="mb-2 text-2xl font-semibold">Installation</h3>
+    <p class="mb-4">To install TailwindCSS and DaisyUI in your project, follow these steps:</p>
+    <ol class="list-decimal list-inside">
+      <li>
+        <p><strong>Install TailwindCSS:</strong></p>
+        <pre class="p-4 mb-4 text-white bg-gray-800 rounded-md"><code>npm install -D tailwindcss</code></pre>
+      </li>
+      <li>
+        <p><strong>Install DaisyUI:</strong></p>
+        <pre class="p-4 mb-4 text-white bg-gray-800 rounded-md"><code>npm install daisyui</code></pre>
+      </li>
+      <li>
+        <p><strong>Add DaisyUI to your <code>tailwind.config.js</code>:</strong></p>
+        <pre class="p-4 mb-4 text-white bg-gray-800 rounded-md"><code>
+          module.exports = &#123;
+            content: ['./src/**/*.&#125;html,js&#125;'],
+            theme: &#123;
+              extend: &#123;&#125;,
+            &#125;,
+            plugins: [require('daisyui')],
+          &#125;
+        </code></pre>
+      </li>
+      <li>
+        <p><strong>Include TailwindCSS in your CSS:</strong></p>
+        <pre class="p-4 text-white bg-gray-800 rounded-md"><code>
+&#64;tailwind base;
+&#64;tailwind components;
+&#64;tailwind utilities;
+        </code></pre>
+      </li>
+    </ol>
+  </section>
+
+  <!-- Global Settings -->
+  <section id="global-settings" class="mb-8">
+    <h2 class="mb-4 text-3xl font-semibold">Global Settings</h2>
+    <h3 class="mb-2 text-2xl font-semibold">Theme Configuration</h3>
+    <p class="mb-4">Configure your DaisyUI themes in <code>tailwind.config.js</code>:</p>
+    <pre class="p-4 mb-4 text-white bg-gray-800 rounded-md"><code>
+module.exports = &#125;
+  daisyui: &#125;
+    themes: ['light', 'dark', 'cupcake'],
+  &#125;,
+&#125;
+      </code></pre>
+    <p class="mb-4"><strong>Default Theme:</strong> <code>light</code></p>
+    <p class="mb-4"><strong>Available Themes:</strong> <code>light</code>, <code>dark</code>, <code>cupcake</code>, etc.
+    </p>
+
+    <h3 class="mb-2 text-2xl font-semibold">Customizing Colors</h3>
+    <p class="mb-4">TailwindCSS provides utility classes for colors. You can extend or override the color palette in
+      <code>tailwind.config.js</code>:
+    </p>
+    <pre class="p-4 mb-4 text-white bg-gray-800 rounded-md"><code>
+module.exports = &#125;
+  theme: &#125;
+    extend: &#125;
+      colors: &#125;
+        primary: '#1D4ED8',
+        secondary: '#9333EA',
+      &#125;,
+    &#125;,
+  &#125;,
+&#125;
+      </code></pre>
+  </section>
+
+  <!-- Components -->
+  <section id="components" class="mb-8">
+    <h2 class="mb-4 text-3xl font-semibold">Components</h2>
+
+    <h3 id="button" class="mb-2 text-2xl font-semibold">Button</h3>
+    <p class="mb-4">Buttons are interactive elements that trigger actions.</p>
+
+    <h4 class="mb-2 text-xl font-semibold">Basic Usage</h4>
+    <pre class="p-4 mb-4 text-white bg-gray-800 rounded-md"><code>&lt;button class="btn btn-primary"&gt;Primary Button&lt;/button&gt;
+&lt;button class="btn btn-secondary"&gt;Secondary Button&lt;/button&gt;
+    </code></pre>
+
+    <h4 class="mb-2 text-xl font-semibold">Variants</h4>
+    <ul class="mb-4 list-disc list-inside">
+      <li><code>btn-primary</code>: Primary</li>
+      <li><code>btn-secondary</code>: Secondary</li>
+      <li><code>btn-accent</code>: Accent</li>
+    </ul>
+
+    <h4 class="mb-2 text-xl font-semibold">Sizing</h4>
+    <ul class="mb-4 list-disc list-inside">
+      <li><code>btn-sm</code>: Small</li>
+      <li><code>btn-md</code>: Medium</li>
+      <li><code>btn-lg</code>: Large</li>
+    </ul>
+
+    <h4 class="mb-2 text-xl font-semibold">Example</h4>
+    <pre class="p-4 mb-4 text-white bg-gray-800 rounded-md"><code>&lt;button class="btn btn-primary btn-lg"&gt;Large Primary Button&lt;/button&gt;
+    </code></pre>
+
+    <h3 id="card" class="mb-2 text-2xl font-semibold">Card</h3>
+    <p class="mb-4">Cards are flexible content containers.</p>
+
+    <h4 class="mb-2 text-xl font-semibold">Basic Usage</h4>
+    <pre class="p-4 mb-4 text-white bg-gray-800 rounded-md"><code>&lt;div class="shadow-xl card w-96 bg-base-100"&gt;
+  &lt;figure&gt;&lt;img src="/img/sample.jpg" alt="Sample Image" /&gt;&lt;/figure&gt;
+  &lt;div class="card-body"&gt;
+    &lt;h2 class="card-title"&gt;Card Title&lt;/h2&gt;
+    &lt;p&gt;Card content goes here.&lt;/p&gt;
+    &lt;div class="justify-end card-actions"&gt;
+      &lt;button class="btn btn-primary"&gt;Action&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+    </code></pre>
+  </section>
 </div>

@@ -18,8 +18,6 @@ export class AppNavbar implements OnInit {
   navigation: { name: string; href: string }[] = [
     { name: 'Home', href: '/' },
     { name: 'Documentation', href: '/docs' },
-    { name: 'Examples', href: '/examples' },
-    { name: 'About', href: '/about' },
     { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ];
