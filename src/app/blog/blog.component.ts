@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { BlogService } from '../services/blog.service';
 import { BrowserCheckService } from '../utils/browser-check.service';
 
@@ -12,18 +12,9 @@ import { BrowserCheckService } from '../utils/browser-check.service';
   providers: [BlogService],
 })
 export class BlogComponent implements OnInit {
-  blogs: {
-    title: string;
-    author: string;
-    description: string;
-    url: string;
-    urlToImage: string;
-    publishedAt: string;
-    content: string;
-  }[] = [];
-
   constructor(
-    private blogService: BlogService,
+    public blogService: BlogService,
+    @Inject(PLATFORM_ID) private platformId: Object,
     private browserCheckService: BrowserCheckService
   ) {}
 
@@ -33,9 +24,19 @@ export class BlogComponent implements OnInit {
    * @return {void}
    */
   ngOnInit(): void {
-    this.blogService.getBlogs().subscribe((data) => {
-      this.blogs = data.articles;
-    });
+    this.blogService.getBlogs().subscribe();
+  }
+
+  get blogs(): {
+    title: string;
+    author: string;
+    description: string;
+    url: string;
+    urlToImage: string;
+    publishedAt: string;
+    content: string;
+  }[] {
+    return this.blogService.blogs()?.articles;
   }
 
   /**
@@ -56,9 +57,10 @@ export class BlogComponent implements OnInit {
    * @return {void}
    */
   onImageLoad(event: Event) {
-    const element = event.target as HTMLImageElement;
-    // Clear the timeout if the image loads successfully
-    clearTimeout((element as any).timeoutId);
+    if (isPlatformBrowser(this.platformId)) {
+      const element = event.target as HTMLImageElement;
+      clearTimeout((element as any).timeoutId);
+    }
   }
 
   /**
@@ -70,7 +72,7 @@ export class BlogComponent implements OnInit {
    * @return {void}
    */
   ngAfterViewInit() {
-    if(this.browserCheckService.isBrowser()){
+    if (isPlatformBrowser(this.platformId)) {
       const carousel = document.getElementById('carousel') as HTMLElement;
       const images = carousel.querySelectorAll('img');
 
@@ -110,8 +112,8 @@ export class BlogComponent implements OnInit {
   }
 
   openInNewTab(url: string) {
-    window.open(url, '_blank');
+    if (isPlatformBrowser(this.platformId)) {
+      window.open(url, '_blank');
+    }
   }
-
-
 }

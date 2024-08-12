@@ -1,8 +1,14 @@
 <div class="m-5">
   <h1 class="text-3xl font-bold">Blogs</h1>
   <div class="divider divider-primary"></div>
-  <div class="grid grid-cols-1 gap-4 ml-5 mr-5 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 
+  @if (blogService.hasError()) {
+    <div role="alert" class="alert alert-error">
+      <span>An error occurred while fetching blogs.</span>
+    </div>
+  }
+
+  <div class="grid grid-cols-1 gap-4 ml-5 mr-5 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
     @for(blog of blogs; track blog.title) {
       <div class="card glass">
         <figure>
