@@ -1,33 +1,48 @@
 <div class="m-5">
-  <h1 class="text-3xl font-bold">Blogs</h1>
+  <div class="flex justify-between">
+    <h1 class="text-3xl font-bold">Blogs</h1>
+    <button class="btn btn-ghost" (click)="reloadData()" [disabled]="blogService.isLoading()">
+      @if(blogService.isLoading()) {
+      <span class="loading loading-spinner"></span>
+      } @else {
+      Reload Data (simulate slow network)
+      }
+    </button>
+  </div>
   <div class="divider divider-primary"></div>
 
   @if (blogService.hasError()) {
-    <div role="alert" class="alert alert-error">
-      <span>An error occurred while fetching blogs.</span>
-    </div>
+  <div role="alert" class="alert alert-error">
+    <span>An error occurred while fetching blogs.</span>
+  </div>
   }
 
+
+  @if (blogService.isLoading()) {
+  <div class="grid grid-cols-1 gap-4 ml-5 mr-5 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    @for(i of [].constructor(10); track i) {
+    <div class="w-full h-32 skeleton"></div>
+    }
+  </div>
+  }@else{
   <div class="grid grid-cols-1 gap-4 ml-5 mr-5 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
     @for(blog of blogs; track blog.title) {
-      <div class="card glass">
-        <figure>
-          <img
-            [src]="blog.urlToImage || 'https://via.placeholder.com/400x200?text=No+Image'"
-            [alt]="blog.title"
-            (load)="onImageLoad($event)"
-            (error)="onImageError($event)"
-            class="object-cover w-full h-48" />
-        </figure>
-        <div class="card-body">
-          <h2 class="card-title">{{ blog.title }}</h2>
-          <p>{{ blog.description }}</p>
-          <div class="justify-end card-actions">
-            <button class="btn btn-link" (click)="openInNewTab(blog.url)">Read More</button>
-          </div>
+    <div class="card glass">
+      <figure>
+        <img [src]="blog.urlToImage || 'https://via.placeholder.com/400x200?text=No+Image'" [alt]="blog.title"
+          (load)="onImageLoad($event)" (error)="onImageError($event)" class="object-cover w-full h-48" />
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title">{{ blog.title }}</h2>
+        <p>{{ blog.description }}</p>
+        <div class="justify-end card-actions">
+          <button class="btn btn-link" (click)="openInNewTab(blog.url)">Read More</button>
         </div>
       </div>
+    </div>
     }
-
   </div>
+  }
+
+
 </div>

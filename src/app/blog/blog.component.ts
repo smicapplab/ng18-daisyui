@@ -24,7 +24,7 @@ export class BlogComponent implements OnInit {
    * @return {void}
    */
   ngOnInit(): void {
-    this.blogService.getBlogs().subscribe();
+    this.blogService.getBlogs();
   }
 
   get blogs(): {
@@ -37,6 +37,10 @@ export class BlogComponent implements OnInit {
     content: string;
   }[] {
     return this.blogService.blogs()?.articles;
+  }
+
+  reloadData(): void {
+    this.blogService.getBlogs(true);
   }
 
   /**
@@ -116,4 +120,5 @@ export class BlogComponent implements OnInit {
       window.open(url, '_blank');
     }
   }
+
 }
