@@ -6,8 +6,8 @@ import { shareReplay, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class UserProfileService {
-  private apiUrl = 'https://randomuser.me/api/';
+export class BlogService {
+  private apiUrl = 'https://saurav.tech/NewsAPI/top-headlines/category/health/in.json';
   private cache$: Observable<any> | null = null;
 
   constructor(private http: HttpClient) {}
@@ -17,7 +17,7 @@ export class UserProfileService {
    *
    * @return {Observable<any>} An observable containing the random user data.
    */
-  getUserProfile(): Observable<any> {
+  getBlogs(): Observable<any> {
     if (!this.cache$) {
       this.cache$ = this.http.get<any>(this.apiUrl).pipe(
         shareReplay(1), // Cache the response
@@ -27,6 +27,7 @@ export class UserProfileService {
         })
       );
     }
+    console.log(this.cache$)
     return this.cache$;
   }
 }
