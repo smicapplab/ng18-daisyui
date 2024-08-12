@@ -9,6 +9,7 @@ import { UserProfileService } from '../../services/user-profile.service';
   imports: [CommonModule],
   providers: [UserProfileService],
 })
+
 export class AppNavbar implements OnInit {
   user: any;
   currentTheme: string = 'light'; // Default theme
@@ -23,23 +24,23 @@ export class AppNavbar implements OnInit {
     { name: 'Contact', href: '/contact' },
   ];
 
-
   constructor(private userProfileService: UserProfileService) {}
   ngOnInit(): void {
     this.userProfileService.getUserProfile().subscribe((data) => {
       this.user = data.results[0];
     });
 
-    // Check if localStorage is available
-    if (this.isLocalStorageAvailable()) {
-      const savedTheme = localStorage.getItem('theme');
+    if (this.isBrowser()) {
+      this.detectSystemTheme();
+      // Load the saved theme from localStorage, if available
+      const savedTheme = this.isLocalStorageAvailable()
+        ? localStorage.getItem('theme')
+        : null;
       if (savedTheme) {
         this.setTheme(savedTheme);
       } else {
         this.setTheme(this.currentTheme);
       }
-    } else {
-      this.setTheme(this.currentTheme);
     }
   }
 
@@ -52,10 +53,35 @@ export class AppNavbar implements OnInit {
     this.currentTheme = theme;
     if (this.isBrowser()) {
       document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
+      if (this.isLocalStorageAvailable()) {
+        localStorage.setItem('theme', theme);
+      }
     }
   }
 
+  /**
+   * Detects the system theme based on the user's preferences.
+   *
+   * Checks if the user's system is set to a dark or light theme and updates the current theme accordingly.
+   *
+   * @return {void} No return value, updates the current theme internally.
+   */
+  detectSystemTheme(): void {
+    if (
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) {
+      this.currentTheme = 'dark';
+    } else {
+      this.currentTheme = 'light';
+    }
+  }
+
+  /**
+   * Checks if local storage is available in the current environment.
+   *
+   * @return {boolean} True if local storage is available, false otherwise.
+   */
   isLocalStorageAvailable(): boolean {
     if (!this.isBrowser()) return false;
 
@@ -69,6 +95,11 @@ export class AppNavbar implements OnInit {
     }
   }
 
+  /**
+   * Checks if the current environment is a browser.
+   *
+   * @return {boolean} True if the environment is a browser, false otherwise.
+   */
   isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof document !== 'undefined';
   }

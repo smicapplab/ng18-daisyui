@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100">
+<div class="shadow navbar bg-base-100">
   <div class="navbar-start">
     <div class="dropdown">
       <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
@@ -7,40 +7,48 @@
         </svg>
       </div>
       <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-        <li *ngFor="let item of navigation">
-          <a [href]="item.href">{{ item.name }}</a>
-        </li>
+        @for (item of navigation; track item.href) {
+          <li>
+            <a [href]="item.href">{{ item.name }}</a>
+          </li>
+        }
       </ul>
     </div>
     <a class="text-xl btn btn-ghost">{{ title }}</a>
   </div>
   <div class="hidden navbar-center lg:flex">
     <ul class="px-1 menu menu-horizontal">
-      <li *ngFor="let item of navigation">
-        <a [href]="item.href">{{ item.name }}</a>
-      </li>
+      @for (item of navigation; track item.href) {
+        <li>
+          <a [href]="item.href">{{ item.name }}</a>
+        </li>
+      }
     </ul>
   </div>
   <div class="navbar-end">
     <button class="btn btn-ghost" (click)="toggleTheme()">
       Mode: {{ currentTheme === 'light' ? '🌙' : '☀️' }}
     </button>
-    <div class="dropdown dropdown-end" *ngIf="user">
-      <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-        <div class="w-10 rounded-full">
-          <img alt="{{ user.name.first }} {{ user.name.last }}'s Thumbnail" [src]="user.picture.thumbnail" />
+    @if (user) {
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+          <div class="w-10 rounded-full">
+            <img alt="{{ user.name.first }} {{ user.name.last }}'s Thumbnail" [src]="user.picture.thumbnail" />
+          </div>
         </div>
+        <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+          <div class="p-3 text-lg font-semibold text-primary">Hi, {{ user.name.first }}!</div>
+          <hr class="mb-3 border-t-2 border-gray-300" />
+          <li>
+            <a class="justify-between">
+              Profile
+              <span class="badge">New</span>
+            </a>
+          </li>
+          <li><a>Settings</a></li>
+          <li><a>Logout</a></li>
+        </ul>
       </div>
-      <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-        <li>
-          <a class="justify-between">
-            Profile
-            <span class="badge">New</span>
-          </a>
-        </li>
-        <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
-      </ul>
-    </div>
+    }
   </div>
 </div>
