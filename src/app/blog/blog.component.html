@@ -17,15 +17,13 @@
   </div>
   }
 
-
-  @if (blogService.isLoading()) {
   <div class="grid grid-cols-1 gap-4 ml-5 mr-5 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-    @for(i of [].constructor(10); track i) {
+    @if (blogService.isLoading()) {
+    @for (i of range(0, 10); track i) {
     <div class="w-full h-32 skeleton"></div>
     }
-  </div>
-  }@else{
-  <div class="grid grid-cols-1 gap-4 ml-5 mr-5 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    }@else{
+
     @for(blog of blogs; track blog.title) {
     <div class="card glass">
       <figure>
@@ -41,8 +39,8 @@
       </div>
     </div>
     }
+    }
   </div>
-  }
 
 
 </div>

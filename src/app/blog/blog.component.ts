@@ -121,4 +121,7 @@ export class BlogComponent implements OnInit {
     }
   }
 
+  range(start: number, end: number): number[] {
+    return [...Array(end - start).keys()].map(i => i + start);
+  }
 }
