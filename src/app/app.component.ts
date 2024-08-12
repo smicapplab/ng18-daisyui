@@ -7,8 +7,7 @@ import { AppNavbar } from './navigation/navbar/navbar.component';
   standalone: true,
   imports: [RouterOutlet, AppNavbar],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
-export class AppComponent {
-  title = 'Angular Template with Tailwindcss';
-}
+
+export class AppComponent {}
