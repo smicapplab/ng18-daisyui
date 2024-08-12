@@ -22,6 +22,9 @@
     </ul>
   </div>
   <div class="navbar-end">
+    <button class="btn btn-ghost" (click)="toggleTheme()">
+      Mode: {{ currentTheme === 'light' ? '🌙' : '☀️' }}
+    </button>
     <div class="dropdown dropdown-end" *ngIf="user">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
